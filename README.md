@@ -35,7 +35,16 @@ Application React (SPA) : annuaire des musiciens malgaches, avec inscription mul
    npm run build
    npm run preview
    ```
-   En production, exposer le serveur (`npm run server`) et configurer le reverse proxy pour que `/api` pointe vers ce serveur, ou servir les fichiers `dist` depuis le même serveur Express.
+   En production, le serveur Express sert à la fois l’API et les fichiers statiques (`dist`).
+
+### Déploiement Plesk
+
+1. **Build** : `npm run build` (en local ou via script de déploiement)
+2. **Uploader** tout le projet (y compris `dist/`) dans `httpdocs`
+3. **Node.js** (Plesk) : activer, mode Production, fichier de démarrage `server/index.js`
+4. **NPM Install** puis **Run script** `build` si besoin
+5. Variables : `ADMIN_PASSWORD`, `NODE_ENV=production`
+6. **Start** : `npm start` ou `node server/index.js`
 
 **Démo** : au premier lancement, si la base est vide, **6 membres exemples** sont insérés automatiquement (Valiha, piano, guitare, etc.). Voir [DEMO.md](DEMO.md) pour un parcours de démonstration pas à pas.
 

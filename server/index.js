@@ -479,6 +479,17 @@ app.post('/api/admin/seed-demo', adminAuth, (req, res) => {
   }
 });
 
+// Production (Plesk) : servir les fichiers statiques du build React
+const distPath = join(__dirname, '..', 'dist');
+if (existsSync(distPath)) {
+  app.use(express.static(distPath));
+  // Fallback SPA : routes non-API → index.html
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(join(distPath, 'index.html'));
+  });
+}
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Serveur API SQLite sur http://localhost:${PORT}`);
