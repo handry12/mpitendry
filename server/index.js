@@ -491,6 +491,20 @@ if (existsSync(distPath)) {
 }
 
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
-  console.log(`Serveur API SQLite sur http://localhost:${PORT}`);
-});
+
+function startServer(port) {
+  const server = app.listen(port, () => {
+    console.log(`Serveur API SQLite sur http://localhost:${port}`);
+  });
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      const nextPort = port + 1;
+      console.warn(`Port ${port} occupé, tentative sur ${nextPort}...`);
+      if (nextPort < 3010) startServer(nextPort);
+      else throw err;
+    } else {
+      throw err;
+    }
+  });
+}
+startServer(PORT);

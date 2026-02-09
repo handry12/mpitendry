@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "node server/index.js",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "deploy": "npm install && npm run build"
   },
   "dependencies": {
     "cors": "^2.8.5",
